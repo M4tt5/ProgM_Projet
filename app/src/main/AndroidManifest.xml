@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Menu1joueur" />
+        <activity android:name=".Entrainement" />
     </application>
 
 </manifest>
