@@ -1,5 +1,6 @@
 package com.example.game
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
@@ -16,11 +17,13 @@ class Entrainement : ComponentActivity() {
         val button6 = findViewById<Button>(R.id.button6)
 
         button1.setOnClickListener {
-            // Action pour jeu 1
+            val intent = Intent(this, TargetJeu::class.java)
+            startActivity(intent)
         }
 
         button2.setOnClickListener {
-            // Action pour jeu 2
+            val intent = Intent(this, FlingGame::class.java)
+            startActivity(intent)
         }
         button3.setOnClickListener {
 
