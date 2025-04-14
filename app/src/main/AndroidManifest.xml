@@ -25,7 +25,8 @@
         <activity android:name=".Menu1joueur" />
         <activity android:name=".Entrainement" />
         <activity android:name=".TargetJeu" />
-        <activity android:name=".FlingGame" />
+        <activity android:name=".CatchGame" />
+
     </application>
 
 </manifest>
