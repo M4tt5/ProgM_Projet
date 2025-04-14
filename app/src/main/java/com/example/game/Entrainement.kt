@@ -22,9 +22,10 @@ class Entrainement : ComponentActivity() {
         }
 
         button2.setOnClickListener {
-            val intent = Intent(this, FlingGame::class.java)
+            val intent = Intent(this, CatchGame::class.java)
             startActivity(intent)
         }
+
         button3.setOnClickListener {
 
         }
