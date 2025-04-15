@@ -26,6 +26,7 @@
         <activity android:name=".Entrainement" />
         <activity android:name=".TargetJeu" />
         <activity android:name=".CatchGame" />
+        <activity android:name=".Quiz1Game" />
 
     </application>
 
