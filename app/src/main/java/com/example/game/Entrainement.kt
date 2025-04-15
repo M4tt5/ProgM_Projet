@@ -33,7 +33,8 @@ class Entrainement : ComponentActivity() {
 
         }
         button5.setOnClickListener{
-
+            val intent = Intent(this, Quiz1Game::class.java)
+            startActivity(intent)
         }
         button6.setOnClickListener {
 
