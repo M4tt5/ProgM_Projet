@@ -1,13 +1,16 @@
 [versions]
-agp = "8.8.0"
-kotlin = "2.0.0"
-coreKtx = "1.15.0"
+agp = "8.2.2"  # Android Gradle Plugin stable
+kotlin = "1.9.23"  # Version compatible avec AGP 8.2.2
+composeCompiler = "1.5.12"  # Version compatible avec Kotlin 1.9.23
+
+coreKtx = "1.12.0"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.1"
-composeBom = "2024.04.01"
+junitVersion = "1.1.5"  # Version corrigée
+espressoCore = "3.5.1"
+lifecycleRuntimeKtx = "2.6.2"  # Version stable
+activityCompose = "1.8.2"
+composeBom = "2023.10.01"  # BOM stable
+#composeCompiler = "1.5.11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,5 +31,5 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+#kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
