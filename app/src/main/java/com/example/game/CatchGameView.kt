@@ -11,9 +11,11 @@ import kotlin.random.Random
 class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     private val bottleBitmap = BitmapFactory.decodeResource(resources, R.drawable.jager)
     private val caddieBitmap = BitmapFactory.decodeResource(resources, R.drawable.caddie)
+    private val fauxBottleBitmap = BitmapFactory.decodeResource(resources, R.drawable.faux_jager)
 
     private lateinit var scaledBottle: Bitmap
     private lateinit var scaledCaddie: Bitmap
+    private lateinit var scaledFauxBottle: Bitmap
 
     private var caddieX = 0f
     private var caddieY = 0f
@@ -75,6 +77,7 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(contex
 
         scaledBottle = Bitmap.createScaledBitmap(bottleBitmap, bottleWidth, bottleHeight, true)
         scaledCaddie = Bitmap.createScaledBitmap(caddieBitmap, caddieWidthRatio, caddieHeightRatio, true)
+        scaledFauxBottle = Bitmap.createScaledBitmap(fauxBottleBitmap, bottleWidth, bottleHeight, true)
 
         caddieWidth = scaledCaddie.width
         caddieHeight = scaledCaddie.height
@@ -86,19 +89,20 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(contex
         super.onDraw(canvas)
 
         if (isGameRunning) {
-            // Bouger et dessiner les bouteilles
             val iterator = bottles.iterator()
             while (iterator.hasNext()) {
                 val bottle = iterator.next()
                 bottle.y += 10f
-                canvas.drawBitmap(scaledBottle, bottle.x, bottle.y, null)
 
-                if (bottle.y + scaledBottle.height >= caddieY &&
-                    bottle.x + scaledBottle.width >= caddieX &&
+                val bitmap = if (bottle.isReal) scaledBottle else scaledFauxBottle
+                canvas.drawBitmap(bitmap, bottle.x, bottle.y, null)
+
+                if (bottle.y + bitmap.height >= caddieY &&
+                    bottle.x + bitmap.width >= caddieX &&
                     bottle.x <= caddieX + caddieWidth
                 ) {
                     iterator.remove()
-                    score++
+                    if (bottle.isReal) score++ else score--
                 }
             }
         }
@@ -125,9 +129,10 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(contex
     private fun spawnBottle() {
         if (!isGameRunning) return
         val x = Random.nextInt(0, width - scaledBottle.width).toFloat()
-        bottles.add(Bottle(x, 0f))
+        val isReal = Random.nextFloat() < 0.7f // 70% chance que ce soit un vrai jager
+        bottles.add(Bottle(x, 0f, isReal))
         postDelayed(::spawnBottle, spawnInterval)
     }
 
-    data class Bottle(var x: Float, var y: Float)
+    data class Bottle(var x: Float, var y: Float, val isReal: Boolean)
 }
