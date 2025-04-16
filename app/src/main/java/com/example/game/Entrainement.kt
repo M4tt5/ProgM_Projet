@@ -2,8 +2,11 @@ package com.example.game
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import com.example.game.challenges.balance.BalanceActivity;
 
 class Entrainement : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,13 +25,20 @@ class Entrainement : ComponentActivity() {
         }
 
         button2.setOnClickListener {
-            val intent = Intent(this, CatchGame::class.java)
+            val intent = Intent(this, CatchGameIntro::class.java)
             startActivity(intent)
         }
 
         button3.setOnClickListener {
-
+            try {
+                val intent = Intent(this, BalanceActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Erreur: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                Log.e("MENU", "Erreur de lancement", e)
+            }
         }
+
         button4.setOnClickListener{
 
         }
