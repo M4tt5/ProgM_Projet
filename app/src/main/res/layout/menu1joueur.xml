@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginHorizontal="50dp"
         android:layout_gravity="center"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="80dp"
         android:text="Mode 1 joueur"
         android:textColor="#006400"
         android:textSize="20sp" />
@@ -19,13 +19,19 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Partie Rapide"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:text="Partie Rapide" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Entrainement"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:text="Entrainement" />
+
+    <Button
+        android:id="@+id/btn_balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jeu d'équilibre" />
 </LinearLayout>
