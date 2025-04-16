@@ -12,16 +12,30 @@ import androidx.activity.ComponentActivity
 import java.util.Random
 
 
-class TargetJeu : ComponentActivity(){
-    private lateinit var gameLayout: RelativeLayout
-    private lateinit var scoreText: TextView
-    private lateinit var timerText: TextView
+class TargetJeu : ComponentActivity() {
     private var score = 0
     private var timer: CountDownTimer? = null
     private val random = Random()
 
+    private lateinit var gameLayout: RelativeLayout
+    private lateinit var scoreText: TextView
+    private lateinit var timerText: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showStartScreen()
+    }
+
+    private fun showStartScreen() {
+        setContentView(R.layout.target_menu)
+
+        val startButton = findViewById<Button>(R.id.startButton)
+        startButton.setOnClickListener {
+            showGameScreen()
+        }
+    }
+
+    private fun showGameScreen() {
         setContentView(R.layout.target)
 
         gameLayout = findViewById(R.id.gameLayout)
@@ -60,12 +74,11 @@ class TargetJeu : ComponentActivity(){
         if (timerText.text == "Terminé !") return
 
         val bottle = ImageView(this)
-        bottle.setImageResource(R.drawable.jager) // Nom de ton image
+        bottle.setImageResource(R.drawable.jager)
 
         val size = 150
         val params = RelativeLayout.LayoutParams(size, size)
 
-        // Position aléatoire
         val maxX = gameLayout.width - size
         val maxY = gameLayout.height - size
         if (maxX <= 0 || maxY <= 0) {
@@ -86,7 +99,6 @@ class TargetJeu : ComponentActivity(){
 
         gameLayout.addView(bottle)
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
