@@ -14,7 +14,7 @@ class ShakeDetector(private val onShakeListener: OnShakeListener) : SensorEventL
     private var lastY: Float = 0f
     private var lastZ: Float = 0f
     private var shakeCount = 0
-    private val shakeThreshold = 800 // Sensibilité des secousses
+    private val sensibilite = 800 // Sensibilité des secousses
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
@@ -30,7 +30,7 @@ class ShakeDetector(private val onShakeListener: OnShakeListener) : SensorEventL
 
             val speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000
 
-            if (speed > shakeThreshold) {
+            if (speed > sensibilite) {
                 shakeCount++
                 onShakeListener.onShake(shakeCount)
             }
