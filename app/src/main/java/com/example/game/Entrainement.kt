@@ -26,7 +26,7 @@ class Entrainement : ComponentActivity() {
         }
 
         button2.setOnClickListener {
-            val intent = Intent(this, CatchGame::class.java)
+            val intent = Intent(this, CatchGameIntro::class.java)
             startActivity(intent)
         }
 
