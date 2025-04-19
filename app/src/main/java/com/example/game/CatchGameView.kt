@@ -1,14 +1,16 @@
 package com.example.game
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import kotlin.random.Random
 
-class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
+class CatchGameView(context: Context, attrs: AttributeSet? = null, private val isQuickPlay: Boolean = false, private val listener: OnCatchGameFinishedListener? = null) : View(context, attrs) {
     private val bottleBitmap = BitmapFactory.decodeResource(resources, R.drawable.jager)
     private val caddieBitmap = BitmapFactory.decodeResource(resources, R.drawable.caddie)
     private val fauxBottleBitmap = BitmapFactory.decodeResource(resources, R.drawable.faux_jager)
@@ -62,6 +64,16 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(contex
 
             override fun onFinish() {
                 isGameRunning = false
+                if (isQuickPlay) {
+                    listener?.onGameFinished(score) // On notifie la fin du jeu pour le mode rapide
+                } else {
+                    // En mode entraînement, on affiche le score dans un Toast et on revient à l'écran d'entraînement
+                    Toast.makeText(context, "Score final : $score", Toast.LENGTH_LONG).show()
+
+                    // On revient à l'activité Entrainement
+                    val intent = Intent(context, Entrainement::class.java)
+                    context.startActivity(intent)
+                }
             }
         }.start()
 
@@ -132,6 +144,10 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null) : View(contex
         val isReal = Random.nextFloat() < 0.7f // 70% chance que ce soit un vrai jager
         bottles.add(Bottle(x, 0f, isReal))
         postDelayed(::spawnBottle, spawnInterval)
+    }
+
+    interface OnCatchGameFinishedListener {
+        fun onGameFinished(score: Int)
     }
 
     data class Bottle(var x: Float, var y: Float, val isReal: Boolean)
