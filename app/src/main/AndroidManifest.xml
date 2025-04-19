@@ -36,6 +36,8 @@
         <activity android:name=".CatchGame" />
         <activity android:name=".Quiz1Game" />
         <activity android:name=".ShotGame" />
+        <activity android:name=".PartieRapide" />
+        <activity android:name=".PartieRapideResult" />
 
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />

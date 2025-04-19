@@ -77,19 +77,24 @@ class ShotGame : ComponentActivity(), SensorEventListener {
     private fun stopGame() {
         isGameActive = false
         sensorManager.unregisterListener(this)
-        //Calcul du score entre la quantité versée et la quantité cible
-        // Afficher un Toast avec la quantité finale versée et le score
+
         val score = calculateScore()
         Toast.makeText(this, "Score : $score / 100", Toast.LENGTH_LONG).show()
-        // Réafficher le bouton "Démarrer" pour permettre de recommencer
+
+        timer?.cancel()
         startButton.visibility = View.VISIBLE
 
-        // Annuler le timer si le joueur arrête le jeu manuellement
-        timer?.cancel()
-
-        // On revient à l'activité Entrainement
-        val intent = Intent(this@ShotGame, Entrainement::class.java)
-        this@ShotGame.startActivity(intent)
+        val isQuickPlay = intent.getBooleanExtra("quickPlay", false)
+        if (isQuickPlay) {
+            val resultIntent = Intent()
+            resultIntent.putExtra("score", score)
+            setResult(RESULT_OK, resultIntent)
+            finish()
+        } else {
+            val intent = Intent(this@ShotGame, Entrainement::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun startTimer() {

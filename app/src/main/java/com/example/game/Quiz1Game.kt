@@ -1,5 +1,6 @@
 package com.example.game
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -27,12 +28,35 @@ class Quiz1Game : ComponentActivity() {
 
     private var currentQuestionIndex = 0
     private var score = 0
+    private var isQuickPlay = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.quiz1game)
 
-        showQuestion()
+        // Vérifie si c'est une partie rapide
+        isQuickPlay = intent.getBooleanExtra("quickPlay", false)
+        showAccueil()
+    }
+
+    private fun showAccueil() {
+        val accueilText = findViewById<TextView>(R.id.accueil_text)
+        val startButton = findViewById<Button>(R.id.start_button)
+
+        accueilText.visibility = TextView.VISIBLE
+        startButton.visibility = Button.VISIBLE
+
+        findViewById<TextView>(R.id.question_text).visibility = TextView.GONE
+        findViewById<Button>(R.id.answer1).visibility = Button.GONE
+        findViewById<Button>(R.id.answer2).visibility = Button.GONE
+        findViewById<Button>(R.id.answer3).visibility = Button.GONE
+        findViewById<Button>(R.id.answer4).visibility = Button.GONE
+
+        startButton.setOnClickListener {
+            accueilText.visibility = TextView.GONE
+            startButton.visibility = Button.GONE
+            showQuestion()
+        }
     }
 
     private fun showQuestion() {
@@ -41,6 +65,12 @@ class Quiz1Game : ComponentActivity() {
         val button2 = findViewById<Button>(R.id.answer2)
         val button3 = findViewById<Button>(R.id.answer3)
         val button4 = findViewById<Button>(R.id.answer4)
+
+        findViewById<TextView>(R.id.question_text).visibility = TextView.VISIBLE
+        findViewById<Button>(R.id.answer1).visibility = Button.VISIBLE
+        findViewById<Button>(R.id.answer2).visibility = Button.VISIBLE
+        findViewById<Button>(R.id.answer3).visibility = Button.VISIBLE
+        findViewById<Button>(R.id.answer4).visibility = Button.VISIBLE
 
         val current = questions[currentQuestionIndex]
 
@@ -77,5 +107,12 @@ class Quiz1Game : ComponentActivity() {
         findViewById<Button>(R.id.answer2).visibility = Button.GONE
         findViewById<Button>(R.id.answer3).visibility = Button.GONE
         findViewById<Button>(R.id.answer4).visibility = Button.GONE
+
+        if (isQuickPlay) {
+            val resultIntent = Intent()
+            resultIntent.putExtra("score", score)
+            setResult(RESULT_OK, resultIntent)
+            finish()
+        }
     }
 }

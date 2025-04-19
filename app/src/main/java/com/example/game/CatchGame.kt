@@ -1,7 +1,9 @@
 package com.example.game
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 
 class CatchGame : ComponentActivity(), CatchGameView.OnCatchGameFinishedListener {
@@ -19,6 +21,10 @@ class CatchGame : ComponentActivity(), CatchGameView.OnCatchGameFinishedListener
 
         val startButton = findViewById<Button>(R.id.btnStartGame)
         val retourButton = findViewById<Button>(R.id.btnRetour)
+
+        if (isQuickPlay) {
+            retourButton.visibility = View.GONE
+        }
 
         startButton.setOnClickListener {
             startGame()
@@ -38,6 +44,7 @@ class CatchGame : ComponentActivity(), CatchGameView.OnCatchGameFinishedListener
     }
 
     override fun onGameFinished(score: Int) {
+        Toast.makeText(this@CatchGame, "Score final : $score", Toast.LENGTH_LONG).show()
         val resultIntent = intent
         resultIntent.putExtra("score", score)
         setResult(RESULT_OK, resultIntent)
