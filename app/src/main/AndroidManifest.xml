@@ -35,7 +35,7 @@
         <activity android:name=".TargetJeu" />
         <activity android:name=".CatchGame" />
         <activity android:name=".Quiz1Game" />
-        <activity android:name=".CatchGameIntro" />
+        <activity android:name=".ShotGame" />
 
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />

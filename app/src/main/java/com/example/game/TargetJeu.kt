@@ -1,6 +1,6 @@
 package com.example.game
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
@@ -17,13 +17,17 @@ class TargetJeu : ComponentActivity() {
     private var timer: CountDownTimer? = null
     private val random = Random()
 
+
     private lateinit var gameLayout: RelativeLayout
     private lateinit var scoreText: TextView
     private lateinit var timerText: TextView
+    private var isQuickPlay = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isQuickPlay = intent.getBooleanExtra("quickPlay", false)
         showStartScreen()
+
     }
 
     private fun showStartScreen() {
@@ -61,7 +65,18 @@ class TargetJeu : ComponentActivity() {
             override fun onFinish() {
                 timerText.text = "Terminé !"
                 gameLayout.removeAllViews()
-                Toast.makeText(this@TargetJeu, "Score final : $score", Toast.LENGTH_LONG).show()
+
+                if (isQuickPlay) {
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("score", score)
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
+                } else {
+                    Toast.makeText(this@TargetJeu, "Score final : $score", Toast.LENGTH_LONG).show()
+                    // On revient à l'activité Entrainement
+                    val intent = Intent(this@TargetJeu, Entrainement::class.java)
+                    this@TargetJeu.startActivity(intent)
+                }
             }
         }.start()
     }

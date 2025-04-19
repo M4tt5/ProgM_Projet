@@ -12,16 +12,21 @@ class Menu1joueur : ComponentActivity() {
         setContentView(R.layout.menu1joueur)
         val button1 = findViewById<Button>(R.id.button)
         val button2 = findViewById<Button>(R.id.button2)
+        val button3 = findViewById<Button>(R.id.button3)
 
         button1.setOnClickListener {
-            // Action pour 1 joueur
+            val intent = Intent(this, PartieRapide::class.java)
+            startActivity(intent)
         }
 
         button2.setOnClickListener {
             val intent = Intent(this, Entrainement::class.java)
             startActivity(intent)
         }
-
+        button3.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }

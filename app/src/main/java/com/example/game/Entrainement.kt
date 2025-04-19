@@ -21,6 +21,7 @@ class Entrainement : ComponentActivity() {
         val button4 = findViewById<Button>(R.id.button4)
         val button5 = findViewById<Button>(R.id.button5)
         val button6 = findViewById<Button>(R.id.button6)
+        val button7 = findViewById<Button>(R.id.button7)
 
         button1.setOnClickListener {
             val intent = Intent(this, TargetJeu::class.java)
@@ -28,7 +29,7 @@ class Entrainement : ComponentActivity() {
         }
 
         button2.setOnClickListener {
-            val intent = Intent(this, CatchGameIntro::class.java)
+            val intent = Intent(this, CatchGame::class.java)
             startActivity(intent)
         }
 
@@ -48,11 +49,17 @@ class Entrainement : ComponentActivity() {
 
         }
         button5.setOnClickListener{
-            val intent = Intent(this, Quiz1Game::class.java)
+            val intent = Intent(this, ShotGame::class.java)
             startActivity(intent)
         }
         button6.setOnClickListener {
-
+            val intent = Intent(this, Quiz1Game::class.java)
+            startActivity(intent)
         }
+        button7.setOnClickListener {
+            val intent = Intent(this, Menu1joueur::class.java)
+            startActivity(intent)
+        }
+
     }
 }
