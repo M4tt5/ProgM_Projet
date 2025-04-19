@@ -13,10 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Game"
         tools:targetApi="31">
+
         <activity
             android:name=".challenges.balance.BalanceActivity"
             android:exported="true"
             android:screenOrientation="fullSensor" />
+        <activity android:name=".challenges.shake.ShakeActivity" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

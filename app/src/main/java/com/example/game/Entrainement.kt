@@ -6,7 +6,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.game.challenges.balance.BalanceActivity;
+
+import com.example.game.challenges.balance.BalanceActivity
+import com.example.game.challenges.shake.ShakeActivity
+
 
 class Entrainement : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +43,9 @@ class Entrainement : ComponentActivity() {
             }
         }
 
-        button4.setOnClickListener{
+        button4.setOnClickListener {
+            val intent = Intent(this, ShakeActivity::class.java)
+            startActivity(intent)
 
         }
         button5.setOnClickListener{
