@@ -6,8 +6,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+
 import com.example.game.challenges.balance.BalanceActivity
 import com.example.game.challenges.shake.ShakeActivity
+
 
 class Entrainement : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class Entrainement : ComponentActivity() {
         }
 
         button2.setOnClickListener {
-            val intent = Intent(this, CatchGame::class.java)
+            val intent = Intent(this, CatchGameIntro::class.java)
             startActivity(intent)
         }
 
@@ -39,9 +41,11 @@ class Entrainement : ComponentActivity() {
                 Log.e("MENU", "Erreur de lancement", e)
             }
         }
+
         button4.setOnClickListener {
             val intent = Intent(this, ShakeActivity::class.java)
             startActivity(intent)
+
         }
         button5.setOnClickListener{
             val intent = Intent(this, Quiz1Game::class.java)
