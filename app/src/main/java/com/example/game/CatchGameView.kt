@@ -3,7 +3,6 @@ package com.example.game
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -27,11 +26,15 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null, private val i
     private val bottles = mutableListOf<Bottle>()
     private var score = 0
 
-    private var timeLeft = 30 // en secondes
-    private var isGameRunning = true
-    private lateinit var timer: CountDownTimer
+    private var realBottleCount = 0
+    private val maxRealBottles = 30
+    private var totalBottlesToSpawn = 0
+    private var bottlesSpawned = 0
 
-    private var spawnInterval = 1000L // temps initial entre deux bouteilles (1 sec)
+    private var isGameRunning = true
+
+
+    private var spawnInterval =400L // temps entre deux bouteilles
 
     private val scorePaint = Paint().apply {
         color = Color.BLACK
@@ -46,38 +49,14 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null, private val i
     private fun startGame() {
         isGameRunning = true
         score = 0
-        timeLeft = 30
+        realBottleCount = 0
+        bottlesSpawned = 0
 
-        timer = object : CountDownTimer(30000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeft = (millisUntilFinished / 1000).toInt()
+        // Déterminer combien de fausses bouteilles il y aura (entre 10 et 20)
+        val fakeBottles = Random.nextInt(10, 21)
+        totalBottlesToSpawn = maxRealBottles + fakeBottles
 
-                // Accélération progressive : toutes les 5 secondes, on diminue l'intervalle
-                when (timeLeft) {
-                    25 -> spawnInterval = 800
-                    20 -> spawnInterval = 700
-                    15 -> spawnInterval = 600
-                    10 -> spawnInterval = 500
-                    5  -> spawnInterval = 400
-                }
-            }
-
-            override fun onFinish() {
-                isGameRunning = false
-                if (isQuickPlay) {
-                    listener?.onGameFinished(score) // On notifie la fin du jeu pour le mode rapide
-                } else {
-                    // En mode entraînement, on affiche le score dans un Toast et on revient à l'écran d'entraînement
-                    Toast.makeText(context, "Score final : $score", Toast.LENGTH_LONG).show()
-
-                    // On revient à l'activité Entrainement
-                    val intent = Intent(context, Entrainement::class.java)
-                    context.startActivity(intent)
-                }
-            }
-        }.start()
-
-        postDelayed(::spawnBottle, 1000)
+        postDelayed(::spawnBottle, 500)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -109,12 +88,31 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null, private val i
                 val bitmap = if (bottle.isReal) scaledBottle else scaledFauxBottle
                 canvas.drawBitmap(bitmap, bottle.x, bottle.y, null)
 
+                // Collision avec le caddie
                 if (bottle.y + bitmap.height >= caddieY &&
                     bottle.x + bitmap.width >= caddieX &&
                     bottle.x <= caddieX + caddieWidth
                 ) {
                     iterator.remove()
                     if (bottle.isReal) score++ else score--
+                }
+
+                //Supprimer si hors écran
+                else if (bottle.y > height) {
+                    iterator.remove()
+                }
+            }
+            if (bottles.isEmpty() && bottlesSpawned >= totalBottlesToSpawn) {
+                isGameRunning = false
+                if (isQuickPlay) {
+                    listener?.onGameFinished(score)
+                } else {
+                    // En mode entraînement, on affiche le score dans un Toast et on revient à l'écran d'entraînement
+                    Toast.makeText(context, "Score final : $score", Toast.LENGTH_LONG).show()
+
+                    // On revient à l'activité Entrainement
+                    val intent = Intent(context, Entrainement::class.java)
+                    context.startActivity(intent)
                 }
             }
         }
@@ -124,9 +122,6 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null, private val i
 
         // Afficher le score
         canvas.drawText("Score : $score", 20f, 80f, scorePaint)
-
-        // Afficher le temps restant
-        canvas.drawText("Temps : $timeLeft s", 20f, 150f, scorePaint)
 
         invalidate()
     }
@@ -139,11 +134,27 @@ class CatchGameView(context: Context, attrs: AttributeSet? = null, private val i
     }
 
     private fun spawnBottle() {
-        if (!isGameRunning) return
+        if (!isGameRunning || bottlesSpawned >= totalBottlesToSpawn) return
+
         val x = Random.nextInt(0, width - scaledBottle.width).toFloat()
-        val isReal = Random.nextFloat() < 0.7f // 70% chance que ce soit un vrai jager
+        val isReal: Boolean
+
+        if (realBottleCount < maxRealBottles) {
+            // Tant qu’on n’a pas atteint 30 vraies bouteilles, 70% chance de vraie
+            isReal = Random.nextFloat() < 0.7f
+            if (isReal) realBottleCount++
+        } else {
+            // Sinon, forcément faux
+            isReal = false
+        }
+
         bottles.add(Bottle(x, 0f, isReal))
-        postDelayed(::spawnBottle, spawnInterval)
+        bottlesSpawned++
+
+        // Nouveau spawn tant qu’il reste des bouteilles à générer
+        if (bottlesSpawned < totalBottlesToSpawn) {
+            postDelayed(::spawnBottle, spawnInterval)
+        }
     }
 
     interface OnCatchGameFinishedListener {

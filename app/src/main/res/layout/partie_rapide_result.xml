@@ -13,4 +13,12 @@
         android:textColor="@android:color/black"
         android:text="Résultats"
         android:layout_centerInParent="true"/>
+    <Button
+        android:id="@+id/returnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retour au menu"
+        android:layout_below="@id/resultText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"/>
 </RelativeLayout>

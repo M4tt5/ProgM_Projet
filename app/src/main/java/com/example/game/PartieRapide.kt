@@ -4,15 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.example.game.challenges.balance.BalanceActivity
+import com.example.game.challenges.shake.ShakeActivity
 
 class PartieRapide : ComponentActivity() {
     private val gameClasses = listOf(
         CatchGame::class.java,
         TargetJeu::class.java,
-        BalanceActivity::class.java,
-        //Game4::class.java,
-        Quiz1Game::class.java,
-        //Game6::class.java
+        //BalanceActivity::class.java,
+        //ShakeActivity::class.java,
+        ShotGame::class.java,
+        Quiz1Game::class.java
     )
 
     private lateinit var selectedGames: List<Class<out ComponentActivity>>

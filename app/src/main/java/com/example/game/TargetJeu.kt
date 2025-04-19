@@ -67,6 +67,7 @@ class TargetJeu : ComponentActivity() {
                 gameLayout.removeAllViews()
 
                 if (isQuickPlay) {
+                    Toast.makeText(this@TargetJeu, "Score final : $score", Toast.LENGTH_LONG).show()
                     val resultIntent = Intent()
                     resultIntent.putExtra("score", score)
                     setResult(RESULT_OK, resultIntent)
