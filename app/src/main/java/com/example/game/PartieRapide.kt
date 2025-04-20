@@ -10,8 +10,8 @@ class PartieRapide : ComponentActivity() {
     private val gameClasses = listOf(
         CatchGame::class.java,
         TargetJeu::class.java,
-        //BalanceActivity::class.java,
-        //ShakeActivity::class.java,
+        BalanceActivity::class.java,
+        ShakeActivity::class.java,
         ShotGame::class.java,
         Quiz1Game::class.java
     )

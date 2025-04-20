@@ -1,5 +1,9 @@
 package com.example.game.challenges.balance
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -23,24 +26,38 @@ class BalanceActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val quickPlay = intent.getBooleanExtra("quickPlay", false)
         setContent {
             GameTheme {
-                BalanceChallengeScreen(viewModel = viewModel)
+                BalanceChallengeScreen(viewModel = viewModel, quickPlay = quickPlay)
             }
         }
     }
 }
 
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
+
 @Composable
-fun BalanceChallengeScreen(viewModel: BalanceViewModel) {
+fun BalanceChallengeScreen(viewModel: BalanceViewModel, quickPlay: Boolean) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsState()
 
     // Gestion du son de fin
     LaunchedEffect(state.gameEnded) {
         if (state.gameEnded) {
-            val soundRes = if (state.hasWon) R.raw.win else R.raw.loose
-            SoundPlayer.play(context, soundRes)
+            val activity = context.findActivity()
+            val resultIntent = Intent()
+            if (!quickPlay) {
+                val soundRes = if (state.hasWon) R.raw.win else R.raw.loose
+                SoundPlayer.play(context, soundRes)
+            }
+            resultIntent.putExtra("score", state.currentScore)
+            activity?.setResult(Activity.RESULT_OK, resultIntent)
+            activity?.finish()
         }
     }
 
@@ -66,6 +83,8 @@ fun BalanceChallengeScreen(viewModel: BalanceViewModel) {
                 style = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.height(24.dp))
+
+
         }
 
         // Zone de jeu
@@ -123,17 +142,19 @@ fun BalanceChallengeScreen(viewModel: BalanceViewModel) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(
-            onClick = {
-                if (state.isRunning) viewModel.endChallenge()
-                else viewModel.startChallenge(context)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (state.isRunning) Color(0xFFF44336) else Color(0xFF4CAF50)
-            )
-        ) {
-            Text(if (state.isRunning) "Arrêter" else "Commencer")
+        if (!(quickPlay && state.isRunning)) {
+            Button(
+                onClick = {
+                    if (state.isRunning) viewModel.endChallenge()
+                    else viewModel.startChallenge(context)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (state.isRunning) Color(0xFFF44336) else Color(0xFF4CAF50)
+                )
+            ) {
+                Text(if (state.isRunning) "Arrêter" else "Commencer")
+            }
         }
     }
 }
