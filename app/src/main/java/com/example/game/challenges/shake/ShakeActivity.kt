@@ -20,9 +20,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.example.game.R
-import kotlinx.coroutines.launch
+
 
 class ShakeActivity : ComponentActivity(), SensorEventListener {
 
@@ -32,6 +31,8 @@ class ShakeActivity : ComponentActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val quickPlay = intent.getBooleanExtra("quickPlay", false)
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -49,10 +50,20 @@ class ShakeActivity : ComponentActivity(), SensorEventListener {
 
             LaunchedEffect(ended) {
                 if (ended) {
-                    val res = if (score >= 100) R.raw.win else R.raw.loose
-                    mediaPlayer?.release()
-                    mediaPlayer = MediaPlayer.create(this@ShakeActivity, res)
-                    mediaPlayer?.start()
+                    if (!quickPlay) {
+                        val res = if (score >= 100) R.raw.win else R.raw.loose
+                        mediaPlayer?.release()
+                        mediaPlayer = MediaPlayer.create(this@ShakeActivity, res)
+                        mediaPlayer?.start()
+                    }
+
+                    // Si on est en partie rapide, on renvoie juste le score
+                    if (quickPlay) {
+                        val resultIntent = intent
+                        resultIntent.putExtra("score", score)
+                        setResult(RESULT_OK, resultIntent)
+                        finish()
+                    }
                 }
             }
 

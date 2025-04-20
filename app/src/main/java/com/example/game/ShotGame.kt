@@ -52,6 +52,7 @@ class ShotGame : ComponentActivity(), SensorEventListener {
         stopButton.setOnClickListener {
             stopGame()
         }
+        stopButton.visibility = View.GONE
 
         // Initialiser le gestionnaire de capteurs
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
@@ -68,6 +69,8 @@ class ShotGame : ComponentActivity(), SensorEventListener {
         targetText.text = "Cible : $targetQuantity cL"
         // Masquer le bouton "Démarrer"
         startButton.visibility = View.GONE
+        //Afficher le bouton arrèter
+        stopButton.visibility = View.VISIBLE
         // Démarrer un timer de 5 secondes
         startTimer()
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI)
