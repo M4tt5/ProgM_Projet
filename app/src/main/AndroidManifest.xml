@@ -3,7 +3,22 @@
     package="com.example.game"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-feature android:name="android.hardware.bluetooth"/>
+
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
+        android:name=".BluetoothApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -38,6 +53,10 @@
         <activity android:name=".ShotGame" />
         <activity android:name=".PartieRapide" />
         <activity android:name=".PartieRapideResult" />
+        <activity android:name=".presentation.BluetoothMainActivity" />
+        <activity android:name=".TapGame" />
+        <activity android:name=".ReflexGame"/>
+
 
     </application>
     <uses-permission android:name="android.permission.VIBRATE" />

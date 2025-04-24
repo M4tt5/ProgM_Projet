@@ -13,7 +13,9 @@ class PartieRapide : ComponentActivity() {
         BalanceActivity::class.java,
         ShakeActivity::class.java,
         ShotGame::class.java,
-        Quiz1Game::class.java
+        Quiz1Game::class.java,
+        TapGame::class.java,
+        ReflexGame::class.java
     )
 
     private lateinit var selectedGames: List<Class<out ComponentActivity>>
