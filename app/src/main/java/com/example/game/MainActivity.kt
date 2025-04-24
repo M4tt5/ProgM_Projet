@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.ComponentActivity
-
+import com.example.game.presentation.BluetoothMainActivity
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,10 @@ class MainActivity : ComponentActivity() {
         }
 
         button2.setOnClickListener {
-            // Action pour 2 joueurs
+            val intent = Intent(this, BluetoothMainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(intent)
         }
     }
 }
