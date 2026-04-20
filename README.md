@@ -19,7 +19,64 @@ Le mode multijoueur repose sur une communication Bluetooth permettant de synchro
 ---
 
 ## Technologies utilisées
+
 Langage : Kotlin
+
 Environnement : Android Studio
+
 Plateforme : Android
+
 Communication : Bluetooth
+
+---
+
+## Installation
+Cloner le dépôt :
+
+git clone https://github.com/M4tt5/ProgM_Projet.git
+
+Ouvrir le projet avec Android Studio
+
+Laisser Android Studio synchroniser les dépendances Gradle
+
+Connecter un appareil Android ou lancer un émulateur
+
+---
+
+## Exécution
+Lancer l’application depuis Android Studio
+
+Choisir un mode de jeu :
+- Solo
+- Partie rapide
+- Multijoueur Bluetooth
+
+---
+
+## Mode multijoueur
+
+Le mode multijoueur fonctionne via Bluetooth :
+
+Un joueur agit en tant que serveur
+
+L’autre joueur se connecte en tant que client
+
+Le Bluetooth est utilisé uniquement pour :
+- synchroniser le lancement des jeux
+- transmettre les résultats
+
+Les deux joueurs jouent ensuite localement sur leur appareil respectif.
+
+---
+
+## Objectifs du projet
+- Développer une application Android complète
+- Mettre en œuvre la programmation en Kotlin
+- Implémenter une communication Bluetooth simple
+- Concevoir une architecture modulaire pour des mini-jeux
+- Gérer la synchronisation entre plusieurs appareils
+
+---
+
+### Auteurs
+M4tt5
